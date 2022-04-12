@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WD0122-M1-D11</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    #container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .red {
+      color: lightcoral;
+      font-weight: bold;
+    }
+
+    .selected {
+      color: orange;
+      text-decoration: underline;
+    }
+
+    input {
+      margin-bottom: 10px;
+    }
+
+    #ball {
+      width: 50px;
+      height: 50px;
+      display: inline-block;
+      border-radius: 25px;
+      background-color: brown;
+      position: absolute;
+      top: 200px;
+    }
+
+    #ball.blueBackground {
+      background-color: aqua;
+    }
+
+    #ball.greenBackground {
+      background-color: greenyellow;
+    }
+
+    .highlighted {
+      box-shadow: 2px 2px 2px 2px grey;
+    }
+
+    #ball-hint {
+      position: absolute;
+      top: 60px;
+      width: 150px;
+      font-size: 10px;
+      border: 1px solid #dcdcdc;
+      border-radius: 2px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container">
+    <h1>Back to HTML, finally!</h1>
+
+    <button onclick="makeFirstSectionTitleSelected()">Select first section H2 tag</button>
+    <button onclick="makeAllH2Red()">Make all H2 red</button>
+
+    <div id="first-section">
+      <h2 id="first-section-title">Let's see how to play with it using JS</h2>
+      <p id="first-section-content" class="section-text">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur.
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </p>
+    </div>
+
+    <div id="second-section">
+      <h2 id="second-section-title">Here are some lists</h2>
+      <div id="second-section-content" class="section-text">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat.
+        </p>
+        <input id="li-text-input" type="text" placeholder="Enter list item text..." />
+        <button onclick="addLiToUl()">Add last element to this list</button>
+        <ul>
+          <li>First item</li>
+          <li>Second item</li>
+        </ul>
+        <button onclick="addLiToOl()">Add middle element to this list</button>
+        <ol>
+          <li>First item</li>
+          <li>Second item</li>
+        </ol>
+      </div>
+    </div>
+
+
+    <div id="third-section">
+      <h2 id="third-section-title">Another title here!</h2>
+      <div id="third-section-content" class="section-text">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat.
+        </p>
+      </div>
+    </div>
+
+
+    <div id="control-ball-section">
+      <h2>Control the ball</h2>
+      <input type="text" onmouseover="toggleBallHint(event)" onmouseleave="toggleBallHint(event)"
+        onkeydown="changeBallColor(event)" placeholder="Click and use arrows" />
+    </div>
+
+
+    <div id="inputs">
+      <h2>Some more examples of inputs</h2>
+      <input type="date" /><br />
+      <input type="color"> Select a color</input><br />
+      <input type="text" /><br />
+      <input type="checkbox">Check or uncheck this</input><br />
+    </div>
+
+    <h2 id="last-title">End of document.</h2>
+  </div>
+  <div id="ball" onmouseover="toggleBallHint(event)" onmouseleave="toggleBallHint(event)">
+    <div id="ball-hint" class="hidden">You can change the ball color in the "Control the Ball" section.</div>
+  </div>
+  <script>
+    // Prints something to the browser JS console, NOT the UI.
+    // console.log("Hello world!")
+
+    // This tells the browser to show a prompt with the message.
+    // It BLOCKs the rendering, until the user presses OK.
+    // alert("Welcome!")
+
+
+    // We want to add/remove the .selected class (already defined in our CSS)
+    // to the h2 tag in the first section.
+    // We want to do it using JS.
+    function makeFirstSectionTitleSelected() {
+      // 1) Selecting a node from the DOM.
+      // CONVENTION: when you store a reference to a DOM node in a variable
+      // you want to add the suffix Node to the variable name.
+      let firstSectionTitleNode = document.getElementById("first-section-title")
+
+      // 2) Manipulating the node.
+      // i.e., just modifying its properties. It's a DOM node, an OBJECT.
+      // A special object, but still an object.
+      firstSectionTitleNode.classList.toggle("selected")
+    }
+
+    // We want to make all h2 titles red.
+    function makeAllH2Red() {
+      // 1) Select all h2 tags
+      let h2Nodes = document.getElementsByTagName('h2')
+      // Another way to do it would be: document.querySelectorAll('h2')
+      // If you can, it's better to use tagname, id, className, etc.
+
+      // 2) Manipulate them: add the .red class to all of them
+      for (let h2Node of h2Nodes) {
+        // Do something...
+        h2Node.classList.add('red')
+      }
+      // ^ syntactic sugar for the code below.
+      // Useful when you don't really care about the index,
+      // you just want to do something for each element of an array.
+      // for (let i = 0; i < h2Nodes.length ; i++) {
+      //   let h2Node = h2Nodes[i]
+      //   // Do something....
+      // }
+    }
+
+    // We want to create a function that adds a list item to the
+    // unordered list in the second section
+    function addLiToUl() {
+      // 1) Select the tag -- the ul where we want to add the li
+      let ulNode = document.querySelector("#second-section-content ul")
+
+      // Let's get the text to put inside the li tag
+      let inputText = document.getElementById('li-text-input').value
+
+      if (inputText.length === 0) {
+        alert("You must insert the text of the li.")
+      } else {
+        // 2) Manipulate it
+        // We want to add an li...
+        // We need to create it.
+        let liNode = document.createElement('li') // 2a - we create the new node
+        liNode.innerText = inputText // 2b - we add some text to it (we customize it)
+        ulNode.appendChild(liNode) // 2c - we manipulate the node we selecte, adding a child to it
+      }
+    }
+
+    function addLiToOl() {
+      // Adding a node - step 1 - create a new node
+      let liNode = document.createElement('li')
+
+      // Adding a node - step 2 - customizing it
+      liNode.innerText = "New item of the ordered list"
+
+      // Adding a node - step 3 - attach it somewhere...
+      // It means basically that we want to manipulate another node
+      // by adding a child to it.
+
+      // Node manipulation - step 1 - select the node
+      let olNode = document.querySelector("#second-section-content ol")
+
+      // Node manipulation - step 2 - manipulate it
+      olNode.insertBefore(liNode, olNode.lastElementChild)
+
+      // Or, if you wanted to get the last li child using a CSS selector
+      // let lastLi = document.querySelector("#second-section-content ol li:last-child")
+    }
+
+    function changeBallColor(eventData) {
+      let keyPressed = eventData.key
+
+      // 1) Select the ball, the tag that we want to manipulate
+      let ball = document.getElementById('ball')
+
+      // If we press the arrow down, we make the ball blue
+      if (keyPressed === "ArrowDown") {
+        ball.classList.remove('greenBackground')
+        ball.classList.add('blueBackground')
+      } else if (keyPressed === "ArrowUp") {
+        ball.classList.remove('blueBackground')
+        ball.classList.add('greenBackground')
+      }
+    }
+
+    // When we hover the ball with the mouse
+    // we want some hint to appear that explains the user
+    // how it works. Also, the ball must become lighter in color.
+    function toggleBallHint(eventData) {
+      // First, we toggle the div with the hint text
+      // 1) Select the tag
+      let ballHint = document.getElementById('ball-hint')
+
+      // 2) Do something, manipulate the tag
+      ballHint.classList.toggle("hidden")
+
+      // Second, we make the tag lighter in color (tag that caused the event)
+      eventData.target.classList.toggle('highlighted')
+    }
+  </script>
+</body>
+
+</html>
